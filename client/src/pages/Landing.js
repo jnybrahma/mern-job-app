@@ -1,13 +1,14 @@
-import logo from '../assets/images/logo.svg';
+import { Link } from 'react-router-dom';
 import main from '../assets/images/main.svg';
 import Wrapper from '../assets/wrappers/LandingPage';
+import { Logo } from '../components';
 
 const Landing = () => {
 
   return (
 <Wrapper>
 <nav>
-  <img src={logo} alt="jobify" className='logo'/>
+ <Logo/>
 </nav>
 <div className="container page">
   {/* info */}
@@ -17,9 +18,9 @@ const Landing = () => {
   I'm baby copper mug mlkshk chia, humblebrag knausgaard man braid slow-carb polaroid cliche glossier.
   Pinterest coloring book literally yes plz bushwick franzen cronut small batch.
 </p>
-<button className="btn btn-hero">
+<Link to="/register" className="btn btn-hero">
   Login/Register
-</button>
+</Link>
 </div>
 <img src={main}  alt='job hunt' className='img main-img'/>
 
