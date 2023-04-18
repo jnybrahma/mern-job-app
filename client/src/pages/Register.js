@@ -11,6 +11,8 @@ const initialState ={
 }
 
 const Register = () => {
+
+  
   return (
     <h1>
       Register
