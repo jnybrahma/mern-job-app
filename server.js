@@ -1,4 +1,5 @@
 import express from 'express'
+import 'express-async-errors'
 const app = express()
 import dotenv from 'dotenv'
 dotenv.config()
