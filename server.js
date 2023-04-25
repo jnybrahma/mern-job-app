@@ -1,5 +1,7 @@
+import cors from 'cors';
 import express from 'express'
 import 'express-async-errors'
+
 const app = express()
 import dotenv from 'dotenv'
 dotenv.config()
@@ -14,18 +16,23 @@ import jobsRouter from './routes/jobsRoutes.js';
 import notFoundMiddleware from './middleware/not-found.js'
 import errorHandlerMiddleware from './middleware/error-handler.js'
 
-app.use(express.json())
 
-app.get('/', (req, res) => {
-    throw new Error('error')
-    res.send('Welcome!')
-})
-
+// routers
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/jobs', jobsRouter)
 
+// middleware
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
+
+
+app.use(cors())
+app.use(express.json())
+
+app.get('/', (req, res) => {
+    //throw new Error('error')
+    res.json({ msg: 'Welcome!' })
+})
 
 const port = process.env.PORT || 5000
 
