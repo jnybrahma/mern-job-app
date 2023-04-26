@@ -1,4 +1,3 @@
-import cors from 'cors';
 import express from 'express'
 import 'express-async-errors'
 
@@ -17,7 +16,25 @@ import notFoundMiddleware from './middleware/not-found.js'
 import errorHandlerMiddleware from './middleware/error-handler.js'
 
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+    next();
+});
+
 // routers
+
+app.get('/', (req, res) => {
+    //throw new Error('error')
+    res.json({ msg: 'Welcome!' })
+})
+
+app.get('/api/v1', (req, res) => {
+    //throw new Error('error')
+    res.json({ msg: 'Welcome ! Test API!' })
+})
+
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/jobs', jobsRouter)
 
@@ -25,14 +42,8 @@ app.use('/api/v1/jobs', jobsRouter)
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
 
-
-app.use(cors())
 app.use(express.json())
 
-app.get('/', (req, res) => {
-    //throw new Error('error')
-    res.json({ msg: 'Welcome!' })
-})
 
 const port = process.env.PORT || 5000
 
