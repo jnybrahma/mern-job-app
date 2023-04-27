@@ -31,16 +31,16 @@ const Register = () => {
     const {name, email, password, isMember } = values
     if(!email || !password || (!isMember && !name )){
       displayAlert()
-      return
+      return;
     }
-    const currentUser ={name,email, password}
+    const currentUser ={name, email, password}
     if(isMember){
       console.log('Already a member')
     }
     else{
       registerUser(currentUser)
     }
-    console.log(values)
+   // console.log(values)
 
   }
  

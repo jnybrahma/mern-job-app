@@ -25,16 +25,16 @@ app.use((req, res, next) => {
 
 // routers
 
-app.get('/', (req, res) => {
-    //throw new Error('error')
-    res.json({ msg: 'Welcome!' })
-})
+//app.get('/', (req, res) => {
+//throw new Error('error')/
+//    res.json({ msg: 'Welcome!' })
+//})
 
-app.get('/api/v1', (req, res) => {
-    //throw new Error('error')
-    res.json({ msg: 'Welcome ! Test API!' })
-})
-
+//app.get('/api/v1', (req, res) => {
+//throw new Error('error')
+//    res.json({ msg: 'Welcome ! Test API!' })/
+///})
+app.use(express.json())
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/jobs', jobsRouter)
 
@@ -42,7 +42,7 @@ app.use('/api/v1/jobs', jobsRouter)
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
 
-app.use(express.json())
+
 
 
 const port = process.env.PORT || 5000
