@@ -8,6 +8,7 @@ import {
     showStats
 }
 from '../controllers/jobsController.js'
+import authenticateUser from '../middleware/auth.js'
 
 
 router.route('/').post(createJob).get(getAllJobs)
