@@ -18,6 +18,8 @@ import { DISPLAY_ALERT ,
         UPDATE_USER_BEGIN,
         UPDATE_USER_SUCCESS,
         UPDATE_USER_ERROR,
+        HANDLE_CHANGE,
+        CLEAR_VALUES
 
     } from "./actions";
 
@@ -221,6 +223,19 @@ const updateUser = async (currentUser) =>{
     clearAlert();
 }
 
+const handleChange = ({name, value}) =>{
+    dispatch({
+        type: HANDLE_CHANGE,
+        payload: { name, value},
+    })
+}
+
+const clearValues=() =>{
+    dispatch({
+        type: CLEAR_VALUES
+    })
+}
+
     return(
         <AppContext.Provider value={
             {...state, 
@@ -229,7 +244,11 @@ const updateUser = async (currentUser) =>{
             loginUser,
             setupUser,
             toggleSidebar,
-            logoutUser, updateUser}}>
+            logoutUser,
+            updateUser,
+            handleChange,
+            clearValues
+            }}>
             {children}
         </AppContext.Provider>
     )
