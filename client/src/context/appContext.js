@@ -19,7 +19,10 @@ import { DISPLAY_ALERT ,
         UPDATE_USER_SUCCESS,
         UPDATE_USER_ERROR,
         HANDLE_CHANGE,
-        CLEAR_VALUES
+        CLEAR_VALUES,
+        CREATE_JOB_BEGIN,
+        CREATE_JOB_SUCCESS,
+        CREATE_JOB_ERROR
 
     } from "./actions";
 
@@ -28,6 +31,8 @@ const user = localStorage.getItem('user');
 const userLocation = localStorage.getItem('location');
 
 const initialState ={
+    jobs:[],
+    totalJobs: 0,
     showSidebar : false,
     isLoading: false,
     showAlert: false,
@@ -235,10 +240,43 @@ const clearValues=() =>{
         type: CLEAR_VALUES
     })
 }
+const createJob = async() =>{
+    dispatch({
+        type: CREATE_JOB_BEGIN
+    })
+    try{
+        const { position, company, jobLocation, jobType, status} = state
+
+        await authFetch.post('/jobs',{
+            company,
+            position,
+            jobLocation,
+            jobType,
+            status,
+        })
+        dispatch({
+            type: CREATE_JOB_SUCCESS,
+        })
+        dispatch({ type: CLEAR_VALUES})
+
+    } catch(error){
+
+        if(error.repsonse.status === 401) return
+        dispatch({
+            type: CREATE_JOB_ERROR,
+            payload: { msg: error.response.data.msg},
+        })
+
+    }
+    clearAlert();
+
+
+}
 
     return(
         <AppContext.Provider value={
-            {...state, 
+            {
+            ...state, 
             displayAlert,
             registerUser,
             loginUser,
@@ -247,7 +285,8 @@ const clearValues=() =>{
             logoutUser,
             updateUser,
             handleChange,
-            clearValues
+            clearValues,
+            createJob
             }}>
             {children}
         </AppContext.Provider>
