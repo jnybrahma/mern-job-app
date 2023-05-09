@@ -298,6 +298,13 @@ const getJobs = async () =>{
         clearAlert()
 }
 
+const setEditJob = (id) =>{
+    console.log(`set edit job: ${id}`)
+}
+const deleteJob = (id) =>{
+    console.log(`delete: ${id}`)
+}
+
     return(
         <AppContext.Provider value={
             {
@@ -312,7 +319,9 @@ const getJobs = async () =>{
             handleChange,
             clearValues,
             createJob, 
-            getJobs
+            getJobs,
+            setEditJob,
+            deleteJob
             }}>
             {children}
         </AppContext.Provider>
