@@ -1,3 +1,4 @@
+import React  from 'react';
 import { useEffect} from 'react'
 import { useAppContext } from '../context/appContext'
 import Loading from './Loading'

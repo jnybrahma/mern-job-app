@@ -1,4 +1,4 @@
-
+import React  from 'react';
 
 const FormRowSelect = ({labelText, name, value, handleChange, list}) => {
   return (

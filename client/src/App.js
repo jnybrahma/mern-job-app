@@ -1,3 +1,4 @@
+import React  from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Register, Landing, Error, ProtectedRoute } from './pages'
 import { AddJob, AllJobs, Profile, SharedLayout, Stats}  from './pages/dashboard/index.js';

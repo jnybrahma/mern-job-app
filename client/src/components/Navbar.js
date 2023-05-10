@@ -1,3 +1,4 @@
+import React  from 'react';
 import { useState } from 'react'
 import Wrapper from "../assets/wrappers/Navbar";
 import { useAppContext} from '../context/appContext';
