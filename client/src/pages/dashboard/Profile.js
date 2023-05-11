@@ -1,12 +1,10 @@
-import React  from 'react';
-import { useState } from "react";
+import React, { useState } from "react";
 import { FormRow, Alert } from "../../components";
 import { useAppContext } from "../../context/appContext";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 
 const Profile = () => {
-  const { user, showAlert, displayAlert, updateUser, isLoading } =
-    useAppContext();
+  const { user, showAlert, displayAlert, updateUser, isLoading } = useAppContext();
 
   const [name, setName] = useState(user?.name);
   const [lastName, setLastName] = useState(user?.lastName);
