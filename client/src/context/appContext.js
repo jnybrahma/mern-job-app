@@ -30,6 +30,8 @@ import { DISPLAY_ALERT ,
         EDIT_JOB_BEGIN,
         EDIT_JOB_SUCCESS,
         EDIT_JOB_ERROR,
+        SHOW_STATS_SUCCESS,
+        SHOW_STATS_BEGIN
 
     } from "./actions";
 
@@ -59,6 +61,8 @@ const initialState ={
     jobType:'full-time',
     statusOptions: ['interview', 'declined', 'pending'],
     status: 'pending',
+    stats : {},
+    monthlyApplications: []
 
 }
 
@@ -347,6 +351,26 @@ const deleteJob = async (jobId) =>{
     //console.log(`delete: ${jobId}`)
 }
 
+const showStats = async () =>{
+    dispatch({ type: SHOW_STATS_BEGIN })
+    try{
+        // GET route method is default for authFetch 
+        const { data } = await authFetch('/jobs/stats')
+        dispatch({
+            type: SHOW_STATS_SUCCESS,
+            payload:{
+                stats:data.defaultStats,
+                monthlyApplications: data.monthlyApplications,
+
+            }
+        })
+    } catch(error){
+        console.log(error.response)
+        //logoutUser()
+    }
+    clearAlert()
+}
+
     return(
         <AppContext.Provider value={
             {
@@ -364,7 +388,8 @@ const deleteJob = async (jobId) =>{
             getJobs,
             setEditJob,
             deleteJob,
-            editJob
+            editJob,
+            showStats
             }}>
             {children}
         </AppContext.Provider>
