@@ -299,7 +299,7 @@ const reducer = (state, action) => {
         }
     }
 
-    if (action.type=== SHOW_STATS_BEGIN ){
+    if (action.type === SHOW_STATS_BEGIN ){
         return {
             ...state,
             isLoading: true,

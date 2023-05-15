@@ -7,7 +7,7 @@ const Stats = () => {
 
  useEffect(()=>{
     showStats()
- }, [])
+ },[]);
 
   if (isLoading) {
     return <Loading center />
@@ -16,7 +16,7 @@ const Stats = () => {
   return (
     <> 
       <StatsContainer />
-      {monthlyApplications.length > 0 && <ChartsContainer />}  
+       {monthlyApplications.length > 0 && <ChartsContainer />}
     
      </>
   )
