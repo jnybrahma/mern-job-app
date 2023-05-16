@@ -10,7 +10,7 @@ const Stats = () => {
  },[]);
 
   if (isLoading) {
-    return //<Loading center />
+    return <Loading center />
   }
 
   return (

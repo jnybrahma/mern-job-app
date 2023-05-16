@@ -304,7 +304,7 @@ const reducer = (state, action) => {
             ...state,
             isLoading: true,
             showAlert: false
-        }
+        };
     }
 
     if( action.type === SHOW_STATS_SUCCESS){
@@ -313,7 +313,7 @@ const reducer = (state, action) => {
             isLoading: false,
             stats: action.payload.stats,
             monthlyApplications: action.payload.monthlyApplications,
-        }
+        };
     } 
 
     throw new Error(`no such action : ${action.type}`)

@@ -352,7 +352,7 @@ const deleteJob = async (jobId) =>{
 }
 
 const showStats = async () =>{
-    dispatch({ type: SHOW_STATS_BEGIN })
+    dispatch({ type: SHOW_STATS_BEGIN });
     try{
         // GET route method is default for authFetch 
         const { data } = await authFetch('/jobs/stats');
