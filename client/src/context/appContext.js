@@ -62,7 +62,12 @@ const initialState ={
     statusOptions: ['interview', 'declined', 'pending'],
     status: 'pending',
     stats : {},
-    monthlyApplications: []
+    monthlyApplications: [],
+    search: '',
+    searchStatus: 'all',
+    searchType: 'all',
+    sort: 'latest',
+    sortOptions:['latest', 'oldest','a-z','z-a'],
 
 }
 
@@ -371,6 +376,9 @@ const showStats = async () =>{
     clearAlert()
 }
 
+const clearFilters = () =>{
+     console.log('clear filters')
+}
     return(
         <AppContext.Provider value={
             {
@@ -389,7 +397,8 @@ const showStats = async () =>{
             setEditJob,
             deleteJob,
             editJob,
-            showStats
+            showStats,
+            clearFilters,
             }}>
             {children}
         </AppContext.Provider>
