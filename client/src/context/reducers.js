@@ -34,7 +34,8 @@ import { DISPLAY_ALERT ,
         EDIT_JOB_ERROR,
         SHOW_STATS_SUCCESS,
         SHOW_STATS_BEGIN,
-        CLEAR_FILTERS
+        CLEAR_FILTERS,
+        CHANGE_PAGE
 
     } from "./actions"
 
@@ -325,6 +326,12 @@ const reducer = (state, action) => {
             searchType: 'all',
             sort: 'latest',
 
+        }
+    }
+    if(action.type === CHANGE_PAGE){
+        return {
+            ...state,
+            page: action.payload.page
         }
     }
 

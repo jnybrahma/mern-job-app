@@ -33,6 +33,7 @@ import { DISPLAY_ALERT ,
         SHOW_STATS_SUCCESS,
         SHOW_STATS_BEGIN,
         CLEAR_FILTERS,
+        CHANGE_PAGE
 
     } from "./actions";
 
@@ -385,6 +386,12 @@ const showStats = async () =>{
 const clearFilters = () =>{
      dispatch({type: CLEAR_FILTERS})
 }
+const changePage = (page) =>{
+    dispatch({ 
+        type: CHANGE_PAGE,
+        payload: { page }
+    })
+}
     return(
         <AppContext.Provider value={
             {
@@ -405,6 +412,7 @@ const clearFilters = () =>{
             editJob,
             showStats,
             clearFilters,
+            changePage
             }}>
             {children}
         </AppContext.Provider>
