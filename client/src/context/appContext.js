@@ -293,9 +293,9 @@ const createJob = async() =>{
 
 }
 const getJobs = async () =>{
-    const { search, searchStatus, searchType, sort } = state
+    const { page, search, searchStatus, searchType, sort } = state
 
-    let url =`/jobs?status=${searchStatus}&jobType=${searchType}&sort=${sort}`
+    let url =`/jobs?page=${page}&status=${searchStatus}&jobType=${searchType}&sort=${sort}`
     if(search){
         url = url + `&search=${search}`
     }
@@ -313,8 +313,8 @@ const getJobs = async () =>{
             },
          })
         }catch(error){
-                console.log(error.response)
-                //logoutUser()
+                //console.log(error.response)
+                logoutUser()
         }
         clearAlert()
 }

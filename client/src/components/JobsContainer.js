@@ -15,10 +15,11 @@ const JobsContainer = () => {
         page,
         totalJobs,
         search,
-        searchStatus, searchType, sort, numOfPages } = useAppContext()
+        searchStatus, searchType, sort, numOfPages} = useAppContext()
     useEffect(()=>{
         getJobs()
-    },[search, searchStatus, searchType, sort])
+        // eslint-disable-next-line
+    },[search, searchStatus, searchType,page, sort])
 
     if(isLoading){
         return <Loading center/>
