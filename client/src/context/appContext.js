@@ -1,4 +1,4 @@
-import React ,{ useContext, useReducer} from "react";
+import React ,{ useContext, useReducer, useEffect} from "react";
 import reducer from "./reducers";
 import axios from 'axios'
 
@@ -33,15 +33,18 @@ import { DISPLAY_ALERT ,
         SHOW_STATS_SUCCESS,
         SHOW_STATS_BEGIN,
         CLEAR_FILTERS,
-        CHANGE_PAGE
+        CHANGE_PAGE,
+        GET_CURRENT_USER_BEGIN,
+        GET_CURRENT_USER_SUCCESS
 
     } from "./actions";
 
-const token = localStorage.getItem('token');
-const user = localStorage.getItem('user');
-const userLocation = localStorage.getItem('location');
+//const token = localStorage.getItem('token');
+//const user = localStorage.getItem('user');
+//const userLocation = localStorage.getItem('location');
 
 const initialState ={
+    userLoading: true,
     jobs:[],
     totalJobs: 0,
     page: 1,
@@ -51,14 +54,13 @@ const initialState ={
     showAlert: false,
     alertText: '',
     alertType: '',
-    user: user ? JSON.parse(user): null,
-    token: token,
-    userLocation: userLocation  ||  '',
+    user:  null,
+    userLocation:  '',
     isEditing: false,
     editJobId: '',
     position: '',
     company: '',
-    jobLocation: userLocation || '',
+    jobLocation:  '',
     jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'],
     jobType:'full-time',
     statusOptions: ['interview', 'declined', 'pending'],
@@ -87,16 +89,16 @@ const AppProvider = ({ children }) =>{
     })
 // request
 
-authFetch.interceptors.request.use( 
-    (config) => {
-       config.headers['Authorization'] = `Bearer ${state.token}`;
-        return config
+//authFetch.interceptors.request.use( 
+//    (config) => {
+//       config.headers['Authorization'] = `Bearer ${state.token}`;
+//        return config
 
-    }, 
-        (error)=>{
-            return Promise.reject(error)    
-        }
-)
+//    }, 
+//        (error)=>{
+//            return Promise.reject(error)    
+//        }/
+//)
 
 authFetch.interceptors.response.use( 
     (response) => {
@@ -128,29 +130,29 @@ authFetch.interceptors.response.use(
         }, 3000)
     }
 
-    const addUserToLocalStorage =({user, token ,location }) =>{
-        localStorage.setItem('user', JSON.stringify(user))
-        localStorage.setItem('token', token)
-        localStorage.setItem('location', location)
-    }
+    //const addUserToLocalStorage =({user, token ,location }) =>{
+    //    localStorage.setItem('user', JSON.stringify(user))
+    //    localStorage.setItem('token', token)
+    //    localStorage.setItem('location', location)
+   // }
 
-    const removeUserFromLocalStorage =() =>{
-        localStorage.removeItem('user')
-        localStorage.removeItem('token')
-        localStorage.removeItem('location')
-    }
+    //const removeUserFromLocalStorage =() =>{
+    //    localStorage.removeItem('user')
+    //    localStorage.removeItem('token')
+    //    localStorage.removeItem('location')
+   // }
 const registerUser = async(currentUser) =>{
     dispatch({ type: REGISTER_USER_BEGIN})
     try{
         const response = await axios.post('/api/v1/auth/register', currentUser)
         //console.log(response);
-        const {user, token, location} = response.data
+        const {user,  location} = response.data
         dispatch({ 
             type: REGISTER_USER_SUCCESS,
-            payload : { user, token, location},
+            payload : { user,  location},
             })
          // local storage
-            addUserToLocalStorage({user, token, location})
+        //    addUserToLocalStorage({user, token, location})
     } catch(error){
        // console.log(error.response)
         dispatch({ 
@@ -167,13 +169,13 @@ const loginUser = async(currentUser) =>{
     try{
         const {data}= await axios.post('/api/v1/auth/login', currentUser)
         //console.log(response);
-        const {user, token, location} = data
+        const {user, location} = data
         dispatch({ 
             type: LOGIN_USER_SUCCESS,
-            payload : { user, token, location},
+            payload : { user,  location},
             })
          // local storage
-            addUserToLocalStorage({user, token, location})
+          //  addUserToLocalStorage({user, token, location})
     } catch(error){
          dispatch({ 
             type: LOGIN_USER_ERROR,
@@ -190,13 +192,13 @@ const setupUser = async({currentUser, endPoint, alertText}) => {
     try {
         const {data}= await axios.post(`/api/v1/auth/${endPoint}`, currentUser)
         //console.log(response);
-        const {user, token, location} = data
+        const {user, location} = data
         dispatch({ 
             type: SETUP_USER_SUCCESS,
-            payload : { user, token, location, alertText},
+            payload : { user, location, alertText},
             })
          // local storage
-            addUserToLocalStorage({user, token, location})
+         //   addUserToLocalStorage({user, token, location})
     } catch(error){
          dispatch({ 
             type: SETUP_USER_ERROR,
@@ -212,7 +214,7 @@ const toggleSidebar = () => {
 
 const logoutUser = () => {
     dispatch({type: LOGOUT_USER})
-    removeUserFromLocalStorage()
+   // removeUserFromLocalStorage()
 }
 
 const updateUser = async (currentUser) =>{
@@ -227,15 +229,15 @@ const updateUser = async (currentUser) =>{
         //    },
 
        // }
-       // )
+       // 
        // console.log(data)
-       const { user, location, token } = data
+       const { user, location} = data
 
        dispatch({
             type: UPDATE_USER_SUCCESS,
-            payload: { user, location, token},
+            payload: { user, location},
        })
-       addUserToLocalStorage({ user, location, token })
+     //  addUserToLocalStorage({ user, location, token })
     } catch(error){
         //console.log(error.response)
         if(error.response.status !== 401){ 
@@ -292,6 +294,27 @@ const createJob = async() =>{
 
 
 }
+const getCurrentUser = async () =>{
+    dispatch({ type: GET_CURRENT_USER_BEGIN });
+    try{
+        const { data } = await authFetch('/auth/getCurrentUser');
+        const { user , location } = data;
+        dispatch({
+            type: GET_CURRENT_USER_SUCCESS,
+            payload: { user, location },
+
+        });
+    } catch(error){
+        if(error.response.status === 401 ) return
+        logoutUser();
+    }
+
+}
+useEffect(() =>{
+    getCurrentUser();
+    // eslint-disable-next-line
+},[])
+
 const getJobs = async () =>{
     const { page, search, searchStatus, searchType, sort } = state
 
@@ -412,7 +435,8 @@ const changePage = (page) =>{
             editJob,
             showStats,
             clearFilters,
-            changePage
+            changePage,
+            getCurrentUser
             }}>
             {children}
         </AppContext.Provider>

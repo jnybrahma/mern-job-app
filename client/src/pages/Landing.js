@@ -1,12 +1,17 @@
 import React  from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import main from '../assets/images/main.svg';
 import Wrapper from '../assets/wrappers/LandingPage';
 import { Logo } from '../components';
+import { useAppContext } from '../context/appContext';
 
 const Landing = () => {
+ const { user } = useAppContext();
 
   return (
+    <React.Fragment>
+
+    {user && <Navigate to='/'/>}
 <Wrapper>
 <nav>
  <Logo/>
@@ -16,8 +21,7 @@ const Landing = () => {
 <div className="info">
 <h1>Job tracking app</h1>
 <p>
-  I'm baby copper mug mlkshk chia, humblebrag knausgaard man braid slow-carb polaroid cliche glossier.
-  Pinterest coloring book literally yes plz bushwick franzen cronut small batch.
+ Hi! This is demo app to record job applications. Applicant can save and record job application data.
 </p>
 <Link to="/register" className="btn btn-hero">
   Login/Register
@@ -28,7 +32,7 @@ const Landing = () => {
 </div>
 
 </Wrapper>
-  
+  </React.Fragment>
   )
 }
 export default Landing

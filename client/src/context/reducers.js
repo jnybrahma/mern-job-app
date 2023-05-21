@@ -35,7 +35,9 @@ import { DISPLAY_ALERT ,
         SHOW_STATS_SUCCESS,
         SHOW_STATS_BEGIN,
         CLEAR_FILTERS,
-        CHANGE_PAGE
+        CHANGE_PAGE,
+        GET_CURRENT_USER_BEGIN,
+        GET_CURRENT_USER_SUCCESS
 
     } from "./actions"
 
@@ -66,7 +68,7 @@ const reducer = (state, action) => {
         return {
             ...state,
             isLoading: false,
-            token: action.payload.token,
+           // token: action.payload.token,
             user:action.payload.user,
             userLocation:action.payload.location,
             jobLocation:action.payload.location,
@@ -93,7 +95,7 @@ const reducer = (state, action) => {
         return {
             ...state,
             isLoading: false,
-            token: action.payload.token,
+            //token: action.payload.token,
             user:action.payload.user,
             userLocation:action.payload.location,
             jobLocation:action.payload.location,
@@ -121,7 +123,7 @@ const reducer = (state, action) => {
         return {
             ...state,
             isLoading: false,
-            token: action.payload.token,
+           // token: action.payload.token,
             user:action.payload.user,
             userLocation:action.payload.location,
             jobLocation:action.payload.location,
@@ -152,9 +154,10 @@ const reducer = (state, action) => {
         return{
             ...initialState,
             user: null,
-            token: null,
-            userLocation: null,
-            jobLocation: null,
+            userLoading: false,
+           // token: null,
+           // userLocation: null,
+           // jobLocation: null,
         }
     }
 
@@ -166,7 +169,7 @@ const reducer = (state, action) => {
         return{
             ...state,
             isLoading: false,
-            token: action.payload.token,
+           // token: action.payload.token,
             user:action.payload.user,
             userLocation:action.payload.location,
             jobLocation:action.payload.location,
@@ -334,6 +337,23 @@ const reducer = (state, action) => {
             ...state,
             page: action.payload.page
         }
+    }
+    
+    if(action.type === GET_CURRENT_USER_BEGIN ){
+        return {
+            ...state,
+            userLoading: true,
+            showAlert: false
+        }
+    };
+    if(action.type === GET_CURRENT_USER_SUCCESS){
+        return {
+            ...state,
+            userLoading: false,
+            user: action.payload.user,
+            userLocation: action.payload.location,
+            jobLocation: action.payload.location,
+        };
     }
 
     throw new Error(`no such action : ${action.type}`)
